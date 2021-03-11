@@ -2,6 +2,7 @@ import React from 'react';
 import BottomNavigation, {
   FullTab,
 } from 'react-native-material-bottom-navigation';
+import {RevenueManagementContext} from '../context/context';
 import {View, Text, FlatList, Dimensions, ImageBackground} from 'react-native';
 import {Icon, ButtonGroup, ListItem, Avatar} from 'react-native-elements';
 import {expense} from '../routes/data';
@@ -9,16 +10,15 @@ import {TextInput} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native';
 
 const {height, width} = Dimensions.get('window');
-export default class FullTabComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: 'record',
-      selectedIndex: 0,
-    };
-  }
+export default function FullTabComponent(props) {
+  const {state, setState} = React.useContext(RevenueManagementContext);
+  // console.log(state, setState)
+  const [tabState, setTabState] = React.useState({
+    activeTab: 'record',
+    selectedIndex: 0,
+  });
 
-  records = [
+  const records = [
     {name: 'Foods & Drinks', aed: 333, status: '-'},
     {name: 'Foods & Drinks', aed: 34534, status: '+'},
     {name: 'Salary', aed: 1111, status: '+'},
@@ -26,17 +26,12 @@ export default class FullTabComponent extends React.Component {
     {name: 'Salary', aed: 22, status: '+'},
     {name: 'Salary', aed: 222, status: '+'},
   ];
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
-      this.props.getName(this.state.activeTab.toUpperCase());
-    }
-  }
 
-  componentDidMount(){
-      console.log('hello')
-  }
+  React.useEffect(() => {
+    props.getName(tabState.activeTab.toUpperCase());
+  }, [tabState]);
 
-  tabs = [
+  const tabs = [
     {
       key: 'home',
       inActiveIcon: 'ios-home-outline',
@@ -76,7 +71,7 @@ export default class FullTabComponent extends React.Component {
     },
   ];
 
-  list = [
+  const list = [
     {
       name: 'Amy Farha',
       subtitle: 'Vice President',
@@ -89,91 +84,96 @@ export default class FullTabComponent extends React.Component {
     },
   ];
 
-  // state = {
-  //   activeTab: 'home',
-  //   selectedIndex: 0,
-  // };
-
-  renderIcon = (inActiveIcon, activeIcon) => ({isActive}) =>
+  const renderIcon = (inActiveIcon, activeIcon) => ({isActive}) =>
     isActive ? (
       <Icon size={28} color="white" name={activeIcon} type="ionicon" />
     ) : (
       <Icon size={22} color="white" name={inActiveIcon} type="ionicon" />
     );
 
-  renderTab = ({tab, isActive}) => (
+  const renderTab = ({tab, isActive}) => (
     <FullTab
       isActive={isActive}
       key={tab.key}
       label={tab.label}
-      renderIcon={this.renderIcon(tab.inActiveIcon, tab.activeIcon)}
+      renderIcon={renderIcon(tab.inActiveIcon, tab.activeIcon)}
     />
   );
 
-  updateIndex = (selectedIndex) => {
+  const updateIndex = (selectedIndex) => {
     // console.log(selectedIndex);
-    this.setState({
-      selectedIndex: selectedIndex,
-    });
+    setTabState({...tabState, selectedIndex: selectedIndex});
+    // this.setState({
+    //   selectedIndex: selectedIndex,
+    // });
   };
 
-  renderBudget = ({item}) => (
-    <View
-      style={{
-        width: width,
-        height: height * 0.1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        borderBottomWidth: 5,
-        // backgroundColor: 'rgba(0,0,0,0)',
-        backgroundColor: 'transparent',
-      }}>
+  const renderBudget = ({item, index}) => {
+    // console.log(state[item].aed, 'state.index')
+    return (
       <View
         style={{
-          backgroundColor: '#f8f',
-          width: width * 0.6,
-          height: height * 0.07,
+          width: width,
+          height: height * 0.1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          justifyContent: 'center',
-          borderTopRightRadius: height * 0.02,
-          borderBottomRightRadius: height * 0.02,
-          borderRightWidth: 4,
-          borderBottomWidth: 2,
+          paddingHorizontal: 10,
+          borderBottomWidth: 5,
+          // backgroundColor: 'rgba(0,0,0,0)',
+          backgroundColor: 'transparent',
         }}>
-        <Text
+        <View
           style={{
-            fontSize: height * 0.03,
-            shadowColor: '#fff',
-            shadowOffset: {width: 1, height: 1},
-            shadowOpacity: 0.5,
-            shadowRadius: 1,
-            fontWeight: 'bold',
-            color: '#000',
+            backgroundColor: '#f8f',
+            width: width * 0.6,
+            height: height * 0.07,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderTopRightRadius: height * 0.02,
+            borderBottomRightRadius: height * 0.02,
+            borderRightWidth: 4,
+            borderBottomWidth: 2,
           }}>
-          {item}
-        </Text>
+          <Text
+            style={{
+              fontSize: height * 0.03,
+              shadowColor: '#fff',
+              shadowOffset: {width: 1, height: 1},
+              shadowOpacity: 0.5,
+              shadowRadius: 1,
+              fontWeight: 'bold',
+              color: '#000',
+            }}>
+            {item}
+          </Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{
+              fontSize: height * 0.03,
+              fontWeight: 'bold',
+              color: '#989',
+            }}>
+            AED
+          </Text>
+          <TextInput
+            value={state[item].aed}
+            onChangeText={(text) => setState({...state, item: text})}
+            style={{
+              borderWidth: 1,
+              borderWidth: 2,
+              backgroundColor: '#fff',
+              height: height * 0.05,
+              width: width * 0.2,
+            }}
+          />
+        </View>
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text
-          style={{fontSize: height * 0.03, fontWeight: 'bold', color: '#989'}}>
-          AED
-        </Text>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            borderWidth: 2,
-            backgroundColor: '#fff',
-            height: height * 0.05,
-            width: width * 0.2,
-          }}
-        />
-      </View>
-    </View>
-  );
+    );
+  };
 
-  renderSettingsExpense = ({item}) => (
+  const renderSettingsExpense = ({item}) => (
     <ListItem bottomDivider style={{borderBottomWidth: 1}}>
       <ListItem.Content>
         <ListItem.Title>{item}</ListItem.Title>
@@ -182,7 +182,7 @@ export default class FullTabComponent extends React.Component {
     </ListItem>
   );
 
-  renderSettingsIncome = ({item}) => (
+  const renderSettingsIncome = ({item}) => (
     <ListItem bottomDivider style={{borderBottomWidth: 1}}>
       <ListItem.Content>
         <ListItem.Title>{item}</ListItem.Title>
@@ -191,25 +191,34 @@ export default class FullTabComponent extends React.Component {
     </ListItem>
   );
 
-  renderRecordsItem = ({item, index}) => {
+  const renderRecordsItem = ({item, index}) => {
     return (
-      <View style={{height: height * 0.07, width: width , justifyContent:'center', borderBottomWidth: 5, borderBottomColor:'#898'}}>
-        <Text style={{fontSize: height * 0.02, paddingHorizontal: 10}}>{item.name} +  {item.status} +{item.aed}</Text>
+      <View
+        style={{
+          height: height * 0.07,
+          width: width,
+          justifyContent: 'center',
+          borderBottomWidth: 5,
+          borderBottomColor: '#898',
+        }}>
+        <Text style={{fontSize: height * 0.02, paddingHorizontal: 10}}>
+          {item.name} + {item.status} +{item.aed}
+        </Text>
       </View>
-    )
-  }
+    );
+  };
 
-  buttons = ['Expense', 'Income'];
+  const buttons = ['Expense', 'Income'];
 
-  getGraphStatus = () => {
+  const getGraphStatus = () => {
     <View style={{flex: 1, backgroundColor: 'red'}}></View>;
   };
-  getGeneralInfo = () => {
+  const getGeneralInfo = () => {
     <View style={{flex: 2, backgroundColor: 'blue'}}></View>;
   };
 
-  getContentData = () => {
-    switch (this.state.activeTab) {
+  const getContentData = () => {
+    switch (tabState.activeTab) {
       case 'home':
         // console.log(this.props)
         return (
@@ -374,7 +383,7 @@ export default class FullTabComponent extends React.Component {
             <FlatList
               keyExtractor={(item, index) => index.toString()}
               data={Object.keys(expense)}
-              renderItem={this.renderBudget}
+              renderItem={renderBudget}
             />
             <View
               style={{
@@ -419,9 +428,9 @@ export default class FullTabComponent extends React.Component {
               </View>
             </View>
             <FlatList
-              data={this.records}
+              data={records}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={this.renderRecordsItem}
+              renderItem={renderRecordsItem}
             />
             {/* <Text style={{fontSize: 23, fontWeight: 'bold'}}></Text> */}
           </View>
@@ -430,22 +439,22 @@ export default class FullTabComponent extends React.Component {
         return (
           <View style={{flex: 1}}>
             <ButtonGroup
-              onPress={this.updateIndex}
-              selectedIndex={this.state.selectedIndex}
-              buttons={this.buttons}
+              onPress={updateIndex}
+              selectedIndex={tabState.selectedIndex}
+              buttons={buttons}
               containerStyle={{height: 50}}
             />
-            {this.state.selectedIndex ? (
+            {tabState.selectedIndex ? (
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
                 data={Object.keys(expense)}
-                renderItem={this.renderSettingsIncome}
+                renderItem={renderSettingsIncome}
               />
             ) : (
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
                 data={Object.keys(expense)}
-                renderItem={this.renderSettingsExpense}
+                renderItem={renderSettingsExpense}
               />
             )}
           </View>
@@ -453,17 +462,17 @@ export default class FullTabComponent extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <View style={{flex: 1}}>{this.getContentData()}</View>
-        <BottomNavigation
-          activeTab={this.state.activeTab}
-          onTabPress={(newTab) => this.setState({activeTab: newTab.key})}
-          renderTab={this.renderTab}
-          tabs={this.tabs}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={{flex: 1}}>
+      <View style={{flex: 1}}>{getContentData()}</View>
+      <BottomNavigation
+        activeTab={tabState.activeTab}
+        onTabPress={(newTab) =>
+          setTabState({...tabState, activeTab: newTab.key})
+        }
+        renderTab={renderTab}
+        tabs={tabs}
+      />
+    </View>
+  );
 }

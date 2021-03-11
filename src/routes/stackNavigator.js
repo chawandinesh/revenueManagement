@@ -9,18 +9,27 @@ export default function stackNavigator() {
   const [headerTitleName, setHeaderTitleName] = React.useState(
     'HomeNavigation',
   );
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" options={{headerTitle: headerTitleName}}>
+        <Stack.Screen
+          name="HomeScreen"
+          options={{
+            headerTitle: headerTitleName,
+            headerTitleAlign: 'center',
+            headerTintColor: '#fff',
+            headerStyle: {backgroundColor: '#757'},
+          }}>
           {(props) => {
-            return <FullTab
-            //   {...props}
-              getName={(name) => {
-                setHeaderTitleName(name);
-              }}
-            />;
+            return (
+              <FullTab
+                //   {...props}
+                getName={(name) => {
+                  setHeaderTitleName(name);
+                }}
+              />
+            );
           }}
         </Stack.Screen>
       </Stack.Navigator>

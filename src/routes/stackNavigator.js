@@ -10,6 +10,22 @@ export default function stackNavigator() {
     'HomeNavigation',
   );
 
+  const getHeaderColor = () => {
+    console.log(headerTitleName)
+    switch (headerTitleName) {
+      case "HOME":
+        return '#388E3C'
+      case "BUDGET":
+        return '#AC0FB5'
+      case "RECORD":
+        return '#d9d334'
+      case "SETTINGS":
+        return '#3d93fc'
+      default:
+        return "#345"
+    }
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -19,7 +35,7 @@ export default function stackNavigator() {
             headerTitle: headerTitleName,
             headerTitleAlign: 'center',
             headerTintColor: '#fff',
-            headerStyle: {backgroundColor: '#757'},
+            headerStyle: {backgroundColor: getHeaderColor()},
           }}>
           {(props) => {
             return (

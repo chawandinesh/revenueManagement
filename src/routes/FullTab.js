@@ -88,7 +88,7 @@ export default function FullTabComponent(props) {
       activeIcon: 'list-sharp',
       type: 'ionicon',
       label: 'Earn List',
-      barColor: '#d9d334',
+      barColor: '#c7af3a',
       pressColor: 'rgba(255, 255, 255, 0.16)',
     },
     {

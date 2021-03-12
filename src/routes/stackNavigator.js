@@ -34,7 +34,7 @@ export default function stackNavigator() {
       case "BUDGET":
         return '#AC0FB5'
       case "RECORD":
-        return '#d9d334'
+        return '#c7af3a'
       case "SETTINGS":
         return '#3d93fc'
       default:

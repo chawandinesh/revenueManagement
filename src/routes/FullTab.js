@@ -461,6 +461,12 @@ export default function FullTabComponent(props) {
       case 'record':
         return (
           <View style={{flex: 1}}>
+            
+            <FlatList
+              data={Object.keys(state)}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderRecordsItem}
+            />
             <View
               style={{
                 justifyContent: 'space-between',
@@ -487,11 +493,6 @@ export default function FullTabComponent(props) {
                 </Text>
               </View>
             </View>
-            <FlatList
-              data={Object.keys(state)}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderRecordsItem}
-            />
             {/* <Text style={{fontSize: 23, fontWeight: 'bold'}}></Text> */}
           </View>
         );

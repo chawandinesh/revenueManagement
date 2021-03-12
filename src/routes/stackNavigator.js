@@ -10,6 +10,22 @@ export default function stackNavigator() {
     'HomeNavigation',
   );
 
+  const getHeaderTitleName = () => {
+    switch (headerTitleName) {
+      case "HOME":
+        return "DASHBOARD"
+      case "BUDGET":
+        return 'INCOME'
+      case "RECORD":
+        return 'EARN LIST'
+      case "SETTINGS":
+        return 'TOOLS'
+      default:
+        return "#345"
+    }
+
+  }
+
   const getHeaderColor = () => {
     console.log(headerTitleName)
     switch (headerTitleName) {
@@ -32,7 +48,7 @@ export default function stackNavigator() {
         <Stack.Screen
           name="HomeScreen"
           options={{
-            headerTitle: headerTitleName,
+            headerTitle: getHeaderTitleName(),
             headerTitleAlign: 'center',
             headerTintColor: '#fff',
             headerStyle: {backgroundColor: getHeaderColor()},

@@ -38,10 +38,10 @@ export default function FullTabComponent(props) {
   };
 
   const data = {
-    labels: Object.keys(state).map((e) => e.slice(0,4)),
+    labels: Object.keys(state).map((e) => e.slice(0, 4)),
     datasets: [
       {
-        data: Object.values(state).map(e => parseInt(e.aed)),
+        data: Object.values(state).map((e) => parseInt(e.aed)),
         color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
         strokeWidth: 2, // optional
       },
@@ -68,7 +68,7 @@ export default function FullTabComponent(props) {
       inActiveIcon: 'ios-home-outline',
       activeIcon: 'ios-home-sharp',
       type: 'ionicon',
-      label: 'Home',
+      label: 'Dashboard',
       barColor: '#388E3C',
       pressColor: 'rgba(255, 255, 255, 0.16)',
     },
@@ -77,7 +77,7 @@ export default function FullTabComponent(props) {
       inActiveIcon: 'ios-cash-outline',
       activeIcon: 'ios-cash-sharp',
       type: 'ionicon',
-      label: 'Budget',
+      label: 'Income',
       barColor: '#AC0FB5',
       pressColor: 'rgba(255, 255, 255, 0.16)',
     },
@@ -87,7 +87,7 @@ export default function FullTabComponent(props) {
       inActiveIcon: 'list-outline',
       activeIcon: 'list-sharp',
       type: 'ionicon',
-      label: 'Record',
+      label: 'Earn List',
       barColor: '#d9d334',
       pressColor: 'rgba(255, 255, 255, 0.16)',
     },
@@ -96,7 +96,7 @@ export default function FullTabComponent(props) {
       inActiveIcon: 'ios-settings-outline',
       activeIcon: 'ios-settings-sharp',
       type: 'ionicon',
-      label: 'Settings',
+      label: 'Tools',
       barColor: '#3d93fc',
       pressColor: 'rgba(255, 255, 255, 0.16)',
     },

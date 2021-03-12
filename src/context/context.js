@@ -1,68 +1,48 @@
 import React from 'react';
 export const RevenueManagementContext = React.createContext(null);
 const initialState = {
-  Lending: {
+  'Active and Passive Income Streams': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Holidays: {
+  Diversification: {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Housing: {
+  'Earned Income': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Accommodation: {
+  'Profit Income': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Shopping: {
+  'Interest Income': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Bills: {
+  'Dividend Income': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  'Personal Care': {
+  'Rental Income': {
     icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
-  Entertainment: {
+  'Capital Gains Income': {
     icon: '',
-    aed: '',
-    data: [],
-  },
-  Transport: {
-    icon: '',
-    aed: '',
-    data: [],
-  },
-  General: {
-    icon: '',
-    aed: '',
-    data: [],
-  },
-  Groceries: {
-    icon: '',
-    aed: '',
-    data: [],
-  },
-  'Foods & Drinks': {
-    icon: '',
-    aed: '',
+    aed: '0',
     data: [],
   },
 };
-export  function Context(props) {
+export function Context(props) {
   const [state, setState] = React.useState(initialState);
   return (
     <RevenueManagementContext.Provider value={{state, setState}}>

@@ -8,15 +8,46 @@ import {Icon, ButtonGroup, ListItem, Avatar} from 'react-native-elements';
 import {expense} from '../routes/data';
 import {TextInput} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
 
 const {height, width} = Dimensions.get('window');
 export default function FullTabComponent(props) {
   const {state, setState} = React.useContext(RevenueManagementContext);
+  console.log(Object.values(state));
   // console.log(state, setState)
   const [tabState, setTabState] = React.useState({
     activeTab: 'record',
     selectedIndex: 0,
   });
+  const chartConfig = {
+    backgroundGradientFrom: '#fff',
+    // backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: '#fef',
+    // backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
+  };
+
+  const data = {
+    labels: Object.keys(state).map((e) => e.slice(0,4)),
+    datasets: [
+      {
+        data: Object.values(state).map(e => parseInt(e.aed)),
+        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        strokeWidth: 2, // optional
+      },
+    ],
+    legend: ['Budget'], // optional
+  };
 
   const records = [
     {name: 'Foods & Drinks', aed: 333, status: '-'},
@@ -108,6 +139,14 @@ export default function FullTabComponent(props) {
     // });
   };
 
+  const totalValue = () => {
+    return Object.values(state).reduce(function (accumulator, currentValue) {
+      return accumulator + parseInt(currentValue.aed);
+    }, 0);
+  };
+
+  console.log(totalValue());
+
   const renderBudget = ({item, index}) => {
     // console.log(state[item].aed, 'state.index')
     return (
@@ -159,7 +198,9 @@ export default function FullTabComponent(props) {
           </Text>
           <TextInput
             value={state[item].aed}
-            onChangeText={(text) => setState({...state, item: text})}
+            onChangeText={(text) =>
+              setState({...state, [item]: {...state[item], aed: text}})
+            }
             style={{
               borderWidth: 1,
               borderWidth: 2,
@@ -201,9 +242,23 @@ export default function FullTabComponent(props) {
           borderBottomWidth: 5,
           borderBottomColor: '#898',
         }}>
-        <Text style={{fontSize: height * 0.02, paddingHorizontal: 10}}>
-          {item.name} + {item.status} +{item.aed}
-        </Text>
+        <View
+          style={{
+            fontSize: height * 0.02,
+            paddingHorizontal: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View>
+            <Text style={{fontWeight: 'bold'}}>{item}</Text>
+          </View>
+          <View>
+            <Text style={{fontSize: height * 0.03, fontWeight: 'bold'}}>
+              +{state[item].aed}
+            </Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -231,7 +286,12 @@ export default function FullTabComponent(props) {
             {/* {this.getGraphStatus()}
               {this.getGeneralInfo()} */}
             <View style={{flex: 1, borderBottomWidth: 1}}>
-              <Text style={{fontSize: 23, fontWeight: 'bold'}}>Home</Text>
+              <LineChart
+                data={data}
+                width={width}
+                height={height * 0.24}
+                chartConfig={chartConfig}
+              />
             </View>
             <View style={{flex: 2}}>
               <View
@@ -382,7 +442,7 @@ export default function FullTabComponent(props) {
             style={{flex: 1}}>
             <FlatList
               keyExtractor={(item, index) => index.toString()}
-              data={Object.keys(expense)}
+              data={Object.keys(state)}
               renderItem={renderBudget}
             />
             <View
@@ -393,7 +453,7 @@ export default function FullTabComponent(props) {
                 alignItems: 'center',
               }}>
               <Text style={{fontWeight: 'bold', fontSize: 22}}>
-                Total : AED 1235
+                Total : {totalValue()}
               </Text>
             </View>
           </ImageBackground>
@@ -423,12 +483,12 @@ export default function FullTabComponent(props) {
                     fontWeight: 'bold',
                     fontSize: height * 0.03,
                   }}>
-                  -AED 33734
+                  {totalValue()}
                 </Text>
               </View>
             </View>
             <FlatList
-              data={records}
+              data={Object.keys(state)}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderRecordsItem}
             />
@@ -447,13 +507,13 @@ export default function FullTabComponent(props) {
             {tabState.selectedIndex ? (
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
-                data={Object.keys(expense)}
+                data={Object.keys(state)}
                 renderItem={renderSettingsIncome}
               />
             ) : (
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
-                data={Object.keys(expense)}
+                data={Object.keys(state)}
                 renderItem={renderSettingsExpense}
               />
             )}

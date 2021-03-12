@@ -27,7 +27,7 @@ export default function FullTabComponent(props) {
     selectedIndex: 0,
   });
   const chartConfig = {
-    backgroundGradientFrom: '#fff',
+    backgroundGradientFrom: '#005030',
     // backgroundGradientFromOpacity: 0,
     backgroundGradientTo: '#fef',
     // backgroundGradientToOpacity: 0.5,
@@ -215,32 +215,52 @@ export default function FullTabComponent(props) {
   };
 
   const renderSettingsExpense = ({item}) => (
-    <ListItem bottomDivider style={{borderBottomWidth: 1}}>
-      <ListItem.Content>
-        <ListItem.Title>{item}</ListItem.Title>
-      </ListItem.Content>
-      <ListItem.Chevron />
-    </ListItem>
+    <View
+    style={{
+      width: width,
+      height: height * 0.07,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#f7E6F8',
+      borderBottomWidth: 9,
+      borderBottomRightRadius: 19,
+      borderBottomLeftRadius: 19,
+      borderWidth: 3,
+      marginTop: height * 0.02,
+    }}>
+    <Text style={{fontWeight: 'bold', fontSize: height * 0.03}}>{item}</Text>
+  </View>
   );
 
   const renderSettingsIncome = ({item}) => (
-    <ListItem bottomDivider style={{borderBottomWidth: 1}}>
-      <ListItem.Content>
-        <ListItem.Title>{item}</ListItem.Title>
-      </ListItem.Content>
-      <ListItem.Chevron />
-    </ListItem>
+    <View
+      style={{
+        width: width,
+        height: height * 0.07,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#87E6F8',
+        borderBottomWidth: 9,
+        borderBottomRightRadius: 19,
+        borderBottomLeftRadius: 19,
+        borderWidth: 3,
+        marginTop: height * 0.02,
+      }}>
+      <Text style={{fontWeight: 'bold', fontSize: height * 0.03}}>{item}</Text>
+    </View>
+
   );
 
   const renderRecordsItem = ({item, index}) => {
     return (
       <View
         style={{
-          height: height * 0.07,
+          height: height * 0.09,
           width: width,
           justifyContent: 'center',
+          borderBottomEndRadius: height * 0.12,
           borderBottomWidth: 5,
-          borderBottomColor: '#898',
+          borderBottomColor: '#526',
         }}>
         <View
           style={{
@@ -251,7 +271,7 @@ export default function FullTabComponent(props) {
             alignItems: 'center',
           }}>
           <View>
-            <Text style={{fontWeight: 'bold'}}>{item}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: height * 0.023}}>{item}</Text>
           </View>
           <View>
             <Text style={{fontSize: height * 0.03, fontWeight: 'bold'}}>
@@ -277,9 +297,13 @@ export default function FullTabComponent(props) {
       case 'home':
         // console.log(this.props)
         return (
-          <View
+          <ImageBackground
+            source={require('../assets/images/bg7.jpg')}
+
+
             style={{
               flex: 1,
+
               // backgroundColor: 'red',
               // justifyContent: 'space-between',
             }}>
@@ -302,7 +326,7 @@ export default function FullTabComponent(props) {
                   borderRightWidth: 1,
                   backgroundColor: '#6f8',
                   justifyContent: 'center',
-                  borderBottomWidth: 1,
+                  borderBottomWidth: 1
                 }}>
                 <Text style={{fontSize: 23, fontWeight: 'bold', color: '#034'}}>
                   General Info
@@ -312,10 +336,15 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  alignItems:"center",
+                  padding: 10,
+                  // padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Cost</Text>
@@ -330,10 +359,14 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Income</Text>
@@ -347,10 +380,14 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total</Text>
@@ -364,10 +401,14 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Save</Text>
@@ -382,10 +423,14 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Daily Avearage</Text>
@@ -399,10 +444,14 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>
@@ -418,10 +467,15 @@ export default function FullTabComponent(props) {
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
-                  marginVertical: 2,
+                  marginVertical: height * 0.01,
+                  borderRadius: height * 0.04, 
+                  padding: 10,
+                  padding: 4,
+                  overflow:'hidden',
                   justifyContent: 'space-between',
-                  backgroundColor: '#eee',
-                  width: width,
+                  backgroundColor: '#efe',
+                  width: width * 0.8,
+                  alignSelf:'center'
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>
@@ -433,7 +487,7 @@ export default function FullTabComponent(props) {
                 </View>
               </View>
             </View>
-          </View>
+          </ImageBackground>
         );
       case 'budget':
         return (
@@ -460,8 +514,9 @@ export default function FullTabComponent(props) {
         );
       case 'record':
         return (
-          <View style={{flex: 1}}>
-            
+          <ImageBackground
+            source={require('../assets/images/bg5.jpg')}
+            style={{flex: 1}}>
             <FlatList
               data={Object.keys(state)}
               keyExtractor={(item, index) => index.toString()}
@@ -494,11 +549,13 @@ export default function FullTabComponent(props) {
               </View>
             </View>
             {/* <Text style={{fontSize: 23, fontWeight: 'bold'}}></Text> */}
-          </View>
+          </ImageBackground>
         );
       case 'settings':
         return (
-          <View style={{flex: 1}}>
+          <ImageBackground
+            source={require('../assets/images/bg6.jpg')}
+            style={{flex: 1}}>
             <ButtonGroup
               onPress={updateIndex}
               selectedIndex={tabState.selectedIndex}
@@ -518,7 +575,7 @@ export default function FullTabComponent(props) {
                 renderItem={renderSettingsExpense}
               />
             )}
-          </View>
+          </ImageBackground>
         );
     }
   };

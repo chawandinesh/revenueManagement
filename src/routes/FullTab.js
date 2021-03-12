@@ -23,7 +23,7 @@ export default function FullTabComponent(props) {
   console.log(Object.values(state));
   // console.log(state, setState)
   const [tabState, setTabState] = React.useState({
-    activeTab: 'record',
+    activeTab: 'home',
     selectedIndex: 0,
   });
   const chartConfig = {

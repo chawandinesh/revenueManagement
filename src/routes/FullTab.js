@@ -199,6 +199,7 @@ export default function FullTabComponent(props) {
             style={{
               borderWidth: 1,
               borderWidth: 2,
+              paddingHorizontal: width * 0.06,
               backgroundColor: '#fff',
               height: height * 0.05,
               width: width * 0.2,
@@ -250,6 +251,7 @@ export default function FullTabComponent(props) {
           style={{
             width: width * 0.3,
             borderWidth: 2,
+            paddingHorizontal:width * 0.1,
             height: height * 0.06,
             backgroundColor: '#fff',
           }}
@@ -299,6 +301,7 @@ export default function FullTabComponent(props) {
           style={{
             width: width * 0.3,
             borderWidth: 2,
+            paddingHorizontal:width * 0.1,
             height: height * 0.06,
             backgroundColor: '#fff',
           }}

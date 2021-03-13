@@ -3,18 +3,12 @@ import BottomNavigation, {
   FullTab,
 } from 'react-native-material-bottom-navigation';
 import {RevenueManagementContext} from '../context/context';
-import {View, Text, FlatList, Dimensions, ImageBackground} from 'react-native';
+import {View, Text, FlatList, Dimensions, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import {Icon, ButtonGroup, ListItem, Avatar} from 'react-native-elements';
 import {expense} from '../routes/data';
 import {TextInput} from 'react-native';
-import {KeyboardAvoidingView} from 'react-native';
 import {
   LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
 } from 'react-native-chart-kit';
 
 const {height, width} = Dimensions.get('window');
@@ -198,6 +192,7 @@ export default function FullTabComponent(props) {
           </Text>
           <TextInput
             value={state[item].aed}
+            keyboardType="numeric"
             onChangeText={(text) =>
               setState({...state, [item]: {...state[item], aed: text}})
             }
@@ -490,6 +485,7 @@ export default function FullTabComponent(props) {
         );
       case 'budget':
         return (
+          <KeyboardAvoidingView behavior="padding" style={{flex:1}}>
           <ImageBackground
             source={require('../assets/images/bg4.jpg')}
             style={{flex: 1}}>
@@ -510,6 +506,7 @@ export default function FullTabComponent(props) {
               </Text>
             </View>
           </ImageBackground>
+          </KeyboardAvoidingView>
         );
       case 'record':
         return (

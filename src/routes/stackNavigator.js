@@ -27,7 +27,6 @@ export default function stackNavigator() {
   }
 
   const getHeaderColor = () => {
-    console.log(headerTitleName)
     switch (headerTitleName) {
       case "HOME":
         return '#388E3C'

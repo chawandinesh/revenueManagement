@@ -2,6 +2,7 @@ import React from 'react';
 import BottomNavigation, {
   FullTab,
 } from 'react-native-material-bottom-navigation';
+import {Container, Header, Button, Fab} from 'native-base';
 import {RevenueManagementContext} from '../context/context';
 import {
   View,
@@ -19,8 +20,7 @@ import {LineChart} from 'react-native-chart-kit';
 const {height, width} = Dimensions.get('window');
 export default function FullTabComponent(props) {
   const {state, setState} = React.useContext(RevenueManagementContext);
-  console.log(Object.values(state));
-  // console.log(state, setState)
+  const [active, setActive] = React.useState(false);
   const [tabState, setTabState] = React.useState({
     activeTab: 'home',
     selectedIndex: 0,
@@ -52,7 +52,6 @@ export default function FullTabComponent(props) {
     ],
     legend: ['expense', 'income'], // optional
   };
-
 
   React.useEffect(() => {
     props.getName(tabState.activeTab.toUpperCase());
@@ -128,11 +127,7 @@ export default function FullTabComponent(props) {
   );
 
   const updateIndex = (selectedIndex) => {
-    // console.log(selectedIndex);
     setTabState({...tabState, selectedIndex: selectedIndex});
-    // this.setState({
-    //   selectedIndex: selectedIndex,
-    // });
   };
 
   const totalIncome = () => {
@@ -148,7 +143,6 @@ export default function FullTabComponent(props) {
   };
 
   const renderBudget = ({item, index}) => {
-    // console.log(state[item].aed, 'state.index')
     return (
       <View
         style={{
@@ -357,7 +351,6 @@ export default function FullTabComponent(props) {
   const getContentData = () => {
     switch (tabState.activeTab) {
       case 'home':
-        // console.log(this.props)
         return (
           <ImageBackground
             source={require('../assets/images/bg7.jpg')}
@@ -479,13 +472,23 @@ export default function FullTabComponent(props) {
                   <Text style={{fontSize: height * 0.025}}>Total Save</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>AED {totalIncome() - totalCost()}</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    AED {totalIncome() - totalCost()}
+                  </Text>
                 </View>
               </View>
-              <View style={{height: height * 0.05, alignItems:'center', justifyContent:'center'}}>
-                <View style={{height: height * 0.01, backgroundColor:'#6f8', width: width}}>
-
-                </View>
+              <View
+                style={{
+                  height: height * 0.05,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <View
+                  style={{
+                    height: height * 0.01,
+                    backgroundColor: '#6f8',
+                    width: width,
+                  }}></View>
               </View>
               {/* Daily Avearage */}
               <View
@@ -505,7 +508,9 @@ export default function FullTabComponent(props) {
                   <Text style={{fontSize: height * 0.025}}>Daily Avearage</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>AED {totalIncome() - totalCost()}</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    AED {totalIncome() - totalCost()}
+                  </Text>
                 </View>
               </View>
 
@@ -528,7 +533,9 @@ export default function FullTabComponent(props) {
                   </Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED {totalCost()}</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    +AED {totalCost()}
+                  </Text>
                 </View>
               </View>
               {/* Daily Avearage Income */}
@@ -552,7 +559,9 @@ export default function FullTabComponent(props) {
                   </Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED {totalIncome()}</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    +AED {totalIncome()}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -654,14 +663,66 @@ export default function FullTabComponent(props) {
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 1}}>{getContentData()}</View>
-      <BottomNavigation
+      {/* <BottomNavigation
         activeTab={tabState.activeTab}
         onTabPress={(newTab) =>
           setTabState({...tabState, activeTab: newTab.key})
         }
         renderTab={renderTab}
         tabs={tabs}
-      />
+      /> */}
+      <Fab
+        active={active}
+        direction="left"
+        containerStyle={{}}
+        style={{backgroundColor: '#5067FF'}}
+        position="bottomRight"
+        onPress={() => setActive(!active)}>
+        <Text>Go</Text>
+        <Button
+          style={{backgroundColor: '#AC0FB5'}}
+          onPress={() => {
+            setActive(!active);
+            setTabState({...tabState, activeTab: 'budget'});
+          }}>
+          <Icon name="ios-cash-outline" type="ionicon" color="#fff" size={25} />
+        </Button>
+
+        <Button
+          style={{backgroundColor: '#c7af3a'}}
+          onPress={() => {
+            setActive(!active);
+            setTabState({...tabState, activeTab: 'record'});
+          }}>
+          <Icon
+            name="ios-list-circle-outline"
+            type="ionicon"
+            color="#fff"
+            size={25}
+          />
+        </Button>
+        <Button
+          style={{backgroundColor: '#3d93fc'}}
+          onPress={() => {
+            setActive(!active);
+            setTabState({...tabState, activeTab: 'settings'});
+          }}>
+          <Icon
+            name="ios-settings-outline"
+            type="ionicon"
+            color="#fff"
+            size={25}
+          />
+        </Button>
+        <Button
+          style={{backgroundColor: '#388E3C'}}
+          onPress={() => {
+            setActive(!active);
+            setTabState({...tabState, activeTab: 'home'});
+          }}>
+          <Icon name="ios-home-outline" type="ionicon" color="#fff" size={25} />
+        </Button>
+      </Fab>
     </View>
   );
 }

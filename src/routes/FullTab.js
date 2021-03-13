@@ -3,13 +3,18 @@ import BottomNavigation, {
   FullTab,
 } from 'react-native-material-bottom-navigation';
 import {RevenueManagementContext} from '../context/context';
-import {View, Text, FlatList, Dimensions, ImageBackground, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  ImageBackground,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Icon, ButtonGroup, ListItem, Avatar} from 'react-native-elements';
 import {expense} from '../routes/data';
 import {TextInput} from 'react-native';
-import {
-  LineChart,
-} from 'react-native-chart-kit';
+import {LineChart} from 'react-native-chart-kit';
 
 const {height, width} = Dimensions.get('window');
 export default function FullTabComponent(props) {
@@ -23,9 +28,9 @@ export default function FullTabComponent(props) {
   const chartConfig = {
     backgroundGradientFrom: '#005030',
     // backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: '#fef',
+    backgroundGradientTo: '#0a0',
     // backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    color: (opacity = 1) => `rgba(71, 255, 138, ${opacity})`,
     strokeWidth: 2, // optional, default 3
     barPercentage: 0.5,
     useShadowColorFromDataset: false, // optional
@@ -35,22 +40,19 @@ export default function FullTabComponent(props) {
     labels: Object.keys(state).map((e) => e.slice(0, 4)),
     datasets: [
       {
-        data: Object.values(state).map((e) => parseInt(e.aed)),
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        data: Object.values(state).map((e) => parseInt(e.expense)),
+        color: (opacity = 1) => `rgba(255, 243, 71, ${opacity})`, // optional
+        strokeWidth: 2, // optional
+      },
+      {
+        data: Object.values(state).map((e) => parseInt(e.income)),
+        color: (opacity = 1) => `rgba(245, 65, 0, ${opacity})`, // optional
         strokeWidth: 2, // optional
       },
     ],
-    legend: ['Budget'], // optional
+    legend: ['expense', 'income'], // optional
   };
 
-  const records = [
-    {name: 'Foods & Drinks', aed: 333, status: '-'},
-    {name: 'Foods & Drinks', aed: 34534, status: '+'},
-    {name: 'Salary', aed: 1111, status: '+'},
-    {name: 'Foods & Drinks', aed: 222, status: '-'},
-    {name: 'Salary', aed: 22, status: '+'},
-    {name: 'Salary', aed: 222, status: '+'},
-  ];
 
   React.useEffect(() => {
     props.getName(tabState.activeTab.toUpperCase());
@@ -133,13 +135,17 @@ export default function FullTabComponent(props) {
     // });
   };
 
-  const totalValue = () => {
+  const totalIncome = () => {
     return Object.values(state).reduce(function (accumulator, currentValue) {
-      return accumulator + parseInt(currentValue.aed);
+      return accumulator + parseInt(currentValue.income);
     }, 0);
   };
 
-  console.log(totalValue());
+  const totalCost = () => {
+    return Object.values(state).reduce(function (accumulator, currentValue) {
+      return accumulator + parseInt(currentValue.expense);
+    }, 0);
+  };
 
   const renderBudget = ({item, index}) => {
     // console.log(state[item].aed, 'state.index')
@@ -191,10 +197,10 @@ export default function FullTabComponent(props) {
             AED
           </Text>
           <TextInput
-            value={state[item].aed}
+            value={state[item].income}
             keyboardType="numeric"
             onChangeText={(text) =>
-              setState({...state, [item]: {...state[item], aed: text}})
+              setState({...state, [item]: {...state[item], income: text}})
             }
             style={{
               borderWidth: 1,
@@ -211,39 +217,98 @@ export default function FullTabComponent(props) {
 
   const renderSettingsExpense = ({item}) => (
     <View
-    style={{
-      width: width,
-      height: height * 0.07,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#f7E6F8',
-      borderBottomWidth: 9,
-      borderBottomRightRadius: 19,
-      borderBottomLeftRadius: 19,
-      borderWidth: 3,
-      marginTop: height * 0.02,
-    }}>
-    <Text style={{fontWeight: 'bold', fontSize: height * 0.03}}>{item}</Text>
-  </View>
+      style={{
+        width: width,
+        marginTop: height * 0.02,
+        alignItems: 'center',
+        height: height * 0.07,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}>
+      <View
+        style={{
+          width: width * 0.7,
+          height: height * 0.07,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f796F8',
+          borderBottomWidth: 9,
+          borderBottomRightRadius: 19,
+          borderBottomLeftRadius: 19,
+          borderWidth: 3,
+        }}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+            fontSize: height * 0.03,
+          }}>
+          {item}
+        </Text>
+      </View>
+      <View style={{width: width * 0.25, height: height * 0.06}}>
+        <TextInput
+          value={state[item].expense}
+          onChangeText={(text) =>
+            setState({...state, [item]: {...state[item], expense: text}})
+          }
+          style={{
+            width: width * 0.3,
+            borderWidth: 2,
+            height: height * 0.06,
+            backgroundColor: '#fff',
+          }}
+        />
+      </View>
+    </View>
   );
 
   const renderSettingsIncome = ({item}) => (
     <View
       style={{
         width: width,
-        height: height * 0.07,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#87E6F8',
-        borderBottomWidth: 9,
-        borderBottomRightRadius: 19,
-        borderBottomLeftRadius: 19,
-        borderWidth: 3,
         marginTop: height * 0.02,
+        alignItems: 'center',
+        height: height * 0.07,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
       }}>
-      <Text style={{fontWeight: 'bold', fontSize: height * 0.03}}>{item}</Text>
+      <View
+        style={{
+          width: width * 0.7,
+          height: height * 0.07,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#87E6F8',
+          borderBottomWidth: 9,
+          borderBottomRightRadius: 19,
+          borderBottomLeftRadius: 19,
+          borderWidth: 3,
+        }}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+            fontSize: height * 0.03,
+          }}>
+          {item}
+        </Text>
+      </View>
+      <View style={{width: width * 0.25, height: height * 0.06}}>
+        <TextInput
+          value={state[item].income}
+          onChangeText={(text) =>
+            setState({...state, [item]: {...state[item], income: text}})
+          }
+          style={{
+            width: width * 0.3,
+            borderWidth: 2,
+            height: height * 0.06,
+            backgroundColor: '#fff',
+          }}
+        />
+      </View>
     </View>
-
   );
 
   const renderRecordsItem = ({item, index}) => {
@@ -266,11 +331,13 @@ export default function FullTabComponent(props) {
             alignItems: 'center',
           }}>
           <View>
-            <Text style={{fontWeight: 'bold', fontSize: height * 0.023}}>{item}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: height * 0.023}}>
+              {item}
+            </Text>
           </View>
           <View>
             <Text style={{fontSize: height * 0.03, fontWeight: 'bold'}}>
-              +{state[item].aed}
+              {state[item].income - state[item].expense}
             </Text>
           </View>
         </View>
@@ -294,8 +361,6 @@ export default function FullTabComponent(props) {
         return (
           <ImageBackground
             source={require('../assets/images/bg7.jpg')}
-
-
             style={{
               flex: 1,
 
@@ -321,7 +386,7 @@ export default function FullTabComponent(props) {
                   borderRightWidth: 1,
                   backgroundColor: '#6f8',
                   justifyContent: 'center',
-                  borderBottomWidth: 1
+                  borderBottomWidth: 1,
                 }}>
                 <Text style={{fontSize: 23, fontWeight: 'bold', color: '#034'}}>
                   General Info
@@ -332,19 +397,21 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Cost</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>-AED 23424.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    -AED {totalCost()}
+                  </Text>
                 </View>
               </View>
 
@@ -354,19 +421,21 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Income</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED 1874.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    +AED {totalIncome()}
+                  </Text>
                 </View>
               </View>
               {/* total */}
@@ -375,19 +444,21 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>-AED 174.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>
+                    AED {totalIncome() + totalCost()}
+                  </Text>
                 </View>
               </View>
               {/* Total save */}
@@ -396,41 +467,45 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Total Save</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED 184.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>AED {totalIncome() - totalCost()}</Text>
                 </View>
               </View>
-              <View style={{height: height * 0.05}}></View>
+              <View style={{height: height * 0.05, alignItems:'center', justifyContent:'center'}}>
+                <View style={{height: height * 0.01, backgroundColor:'#6f8', width: width}}>
+
+                </View>
+              </View>
               {/* Daily Avearage */}
               <View
                 style={{
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>Daily Avearage</Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED 1804.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>AED {totalIncome() - totalCost()}</Text>
                 </View>
               </View>
 
@@ -439,13 +514,13 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>
@@ -453,7 +528,7 @@ export default function FullTabComponent(props) {
                   </Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED 584.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>+AED {totalCost()}</Text>
                 </View>
               </View>
               {/* Daily Avearage Income */}
@@ -462,14 +537,14 @@ export default function FullTabComponent(props) {
                   flexDirection: 'row',
                   height: height * 0.04,
                   marginVertical: height * 0.01,
-                  borderRadius: height * 0.04, 
+                  borderRadius: height * 0.04,
                   padding: 10,
                   padding: 4,
-                  overflow:'hidden',
+                  overflow: 'hidden',
                   justifyContent: 'space-between',
                   backgroundColor: '#efe',
                   width: width * 0.8,
-                  alignSelf:'center'
+                  alignSelf: 'center',
                 }}>
                 <View>
                   <Text style={{fontSize: height * 0.025}}>
@@ -477,7 +552,7 @@ export default function FullTabComponent(props) {
                   </Text>
                 </View>
                 <View>
-                  <Text style={{fontSize: height * 0.025}}>+AED 1804.09</Text>
+                  <Text style={{fontSize: height * 0.025}}>+AED {totalIncome()}</Text>
                 </View>
               </View>
             </View>
@@ -485,27 +560,27 @@ export default function FullTabComponent(props) {
         );
       case 'budget':
         return (
-          <KeyboardAvoidingView behavior="padding" style={{flex:1}}>
-          <ImageBackground
-            source={require('../assets/images/bg4.jpg')}
-            style={{flex: 1}}>
-            <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              data={Object.keys(state)}
-              renderItem={renderBudget}
-            />
-            <View
-              style={{
-                height: height * 0.05,
-                width: width,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{fontWeight: 'bold', fontSize: 22}}>
-                Total : {totalValue()}
-              </Text>
-            </View>
-          </ImageBackground>
+          <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+            <ImageBackground
+              source={require('../assets/images/bg4.jpg')}
+              style={{flex: 1}}>
+              <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={Object.keys(state)}
+                renderItem={renderBudget}
+              />
+              <View
+                style={{
+                  height: height * 0.05,
+                  width: width,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold', fontSize: 22}}>
+                  Total : {totalIncome()}
+                </Text>
+              </View>
+            </ImageBackground>
           </KeyboardAvoidingView>
         );
       case 'record':
@@ -540,7 +615,7 @@ export default function FullTabComponent(props) {
                     fontWeight: 'bold',
                     fontSize: height * 0.03,
                   }}>
-                  {totalValue()}
+                  {totalIncome() - totalCost()}
                 </Text>
               </View>
             </View>

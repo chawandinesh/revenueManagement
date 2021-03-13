@@ -242,6 +242,7 @@ export default function FullTabComponent(props) {
       </View>
       <View style={{width: width * 0.25, height: height * 0.06}}>
         <TextInput
+          keyboardType="numeric"
           value={state[item].expense}
           onChangeText={(text) =>
             setState({...state, [item]: {...state[item], expense: text}})
@@ -290,6 +291,7 @@ export default function FullTabComponent(props) {
       </View>
       <View style={{width: width * 0.25, height: height * 0.06}}>
         <TextInput
+          keyboardType="numeric"
           value={state[item].income}
           onChangeText={(text) =>
             setState({...state, [item]: {...state[item], income: text}})
@@ -604,7 +606,7 @@ export default function FullTabComponent(props) {
             />
             <View
               style={{
-                justifyContent: 'space-between',
+                justifyContent: 'space-evenly',
                 borderWidth: 2,
                 backgroundColor: '#986',
                 paddingHorizontal: 5,
@@ -675,10 +677,10 @@ export default function FullTabComponent(props) {
         active={active}
         direction="left"
         containerStyle={{}}
-        style={{backgroundColor: '#5067FF'}}
+        style={{backgroundColor: '#fff'}}
         position="bottomRight"
         onPress={() => setActive(!active)}>
-        <Text>Go</Text>
+        <Text style={{color:'#000', fontWeight:'bold'}}>Go</Text>
         <Button
           style={{backgroundColor: '#AC0FB5'}}
           onPress={() => {
